@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, computed_field
 from typing import Literal, Annotated
 import pickle
 import pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
 
 # import the ml model
 with open('trained_model/model.pkl','rb') as f:
@@ -11,6 +12,14 @@ with open('trained_model/model.pkl','rb') as f:
     
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 tier_1_cities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", "Hyderabad", "Pune"]
 tier_2_cities = [
